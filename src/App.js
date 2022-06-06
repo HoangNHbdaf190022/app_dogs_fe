@@ -16,7 +16,7 @@ function App() {
 
   useEffect(() => {
     async function getData () {
-      const res = await axios.get('/v1/dogs');
+      const res = await axios.get('https://appbe1.herokuapp.com/v1/dogs');
       return res;
     }
       getData()
