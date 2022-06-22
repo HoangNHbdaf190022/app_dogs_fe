@@ -1,18 +1,30 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CartContext } from  '../Context/CartContext'
+import { CartContext } from  '../Context/CartContext';
+import './Cart.css';
 
 const Cart = () => {
 
+  const [isPay, setIsPay] = useState(false); // disabled button
+  const [status, setStatus] = useState(false); // return payment status
+  const handlePayment = () => {
+    setIsPay(true);
+    addToCart([{}]);
+    setStatus(true);
+  };
+
   const {myCart, addToCart, total, setTotal} = useContext(CartContext);
-  const handleCheckout = () => {
+
+  const handleClear = () => {
     setTotal(0);
     addToCart([{}]);
   }
+
   const navigate = useNavigate();
   const handleBackHome = () => {
     navigate("/");
   }
+
   return (
     <>
       <section className="cart-container">
@@ -26,9 +38,19 @@ const Cart = () => {
               </div>
               )
           })}
-          <div className="cart-total">Total: {total}$</div>
+          {
+            status ? <div className="cart-total">Payment Successful!</div> : 
+            <div className="cart-total">Total: {total}$</div>
+          }
         </div>
-        <button className="cart-checkout" onClick={handleCheckout}>Clear cart</button>
+        <div className="cart-clearAndPay">
+          <button className="cart-checkout" onClick={handleClear}>Clear</button>
+          {
+            isPay ? 
+            <button disabled className="cart-paid">Paid</button>:
+            <button className="cart-pay" onClick={handlePayment} setTotal={setTotal}>Pay</button> 
+          }
+        </div>
         <button className="cart-gohome" onClick={handleBackHome}>Return Home</button>
       </section>
     </>
