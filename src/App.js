@@ -24,10 +24,6 @@ function App() {
       .catch(err => { console.log(err) })
   }, [])
 
-  useEffect(() => {
-    document.title = 'Dogs Shop'
-  })
-
   return (
     <CartContext.Provider value={{ myCart, addToCart, total, setTotal }}>
       <Router>
